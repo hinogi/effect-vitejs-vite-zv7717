@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useMemoize } from '@vueuse/core'
+
 import { Effect } from 'effect';
 
 defineProps<{ msg: string }>()
 
 const count = ref(0)
-const myeffect = useMemoize(() => Effect.sync(() => count.value += 1))
+const myeffect = Effect.sync(() => count.value += 1)
 //    ^?
 
 const increment = () => Effect.runSync(myeffect)
