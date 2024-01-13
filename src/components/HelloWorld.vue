@@ -1,16 +1,23 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useMemoize } from '@vueuse/core'
+import { Effect } from 'effect';
 
 defineProps<{ msg: string }>()
 
 const count = ref(0)
+const myeffect = useMemoize(() => Effect.sync(() => count.value += 1))
+//    ^?
+
+const increment = () => Effect.runSync(myeffect)
+//    ^?
 </script>
 
 <template>
   <h1>{{ msg }}</h1>
 
   <div class="card">
-    <button type="button" @click="count++">count is {{ count }}</button>
+    <button type="button" @click="increment">count is {{ count }}</button>
     <p>
       Edit
       <code>components/HelloWorld.vue</code> to test HMR
